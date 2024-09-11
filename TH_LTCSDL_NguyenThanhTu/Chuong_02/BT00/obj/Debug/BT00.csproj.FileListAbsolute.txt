@@ -8,3 +8,13 @@ D:\DATA_LapTrinh\LapTrinh_CSDLCB\TH_LTCSDL_NguyenThanhTu\Chuong_02\BT00\obj\Debu
 D:\DATA_LapTrinh\LapTrinh_CSDLCB\TH_LTCSDL_NguyenThanhTu\Chuong_02\BT00\obj\Debug\BT00.csproj.CoreCompileInputs.cache
 D:\DATA_LapTrinh\LapTrinh_CSDLCB\TH_LTCSDL_NguyenThanhTu\Chuong_02\BT00\obj\Debug\BT00.exe
 D:\DATA_LapTrinh\LapTrinh_CSDLCB\TH_LTCSDL_NguyenThanhTu\Chuong_02\BT00\obj\Debug\BT00.pdb
+D:\DATA_LapTrinh\Git Clone\gitclone\TH_LTCSDL_NguyenThanhTu\Chuong_02\BT00\bin\Debug\BT00.exe.config
+D:\DATA_LapTrinh\Git Clone\gitclone\TH_LTCSDL_NguyenThanhTu\Chuong_02\BT00\bin\Debug\BT00.exe
+D:\DATA_LapTrinh\Git Clone\gitclone\TH_LTCSDL_NguyenThanhTu\Chuong_02\BT00\bin\Debug\BT00.pdb
+D:\DATA_LapTrinh\Git Clone\gitclone\TH_LTCSDL_NguyenThanhTu\Chuong_02\BT00\obj\Debug\BT00.csproj.AssemblyReference.cache
+D:\DATA_LapTrinh\Git Clone\gitclone\TH_LTCSDL_NguyenThanhTu\Chuong_02\BT00\obj\Debug\BT00.Form1.resources
+D:\DATA_LapTrinh\Git Clone\gitclone\TH_LTCSDL_NguyenThanhTu\Chuong_02\BT00\obj\Debug\BT00.Properties.Resources.resources
+D:\DATA_LapTrinh\Git Clone\gitclone\TH_LTCSDL_NguyenThanhTu\Chuong_02\BT00\obj\Debug\BT00.csproj.GenerateResource.cache
+D:\DATA_LapTrinh\Git Clone\gitclone\TH_LTCSDL_NguyenThanhTu\Chuong_02\BT00\obj\Debug\BT00.csproj.CoreCompileInputs.cache
+D:\DATA_LapTrinh\Git Clone\gitclone\TH_LTCSDL_NguyenThanhTu\Chuong_02\BT00\obj\Debug\BT00.exe
+D:\DATA_LapTrinh\Git Clone\gitclone\TH_LTCSDL_NguyenThanhTu\Chuong_02\BT00\obj\Debug\BT00.pdb
