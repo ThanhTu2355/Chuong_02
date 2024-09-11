@@ -197,6 +197,97 @@ namespace BT01
 
         }
 
+        private void btnThem_Click(object sender, EventArgs e)
+        {
+            MaSV.ReadOnly = false;
+            foreach (Control ctl in Controls)
+                if (ctl is TextBox)
+                    (ctl as TextBox).Clear();
+                else if (ctl is CheckBox)
+                    (ctl as CheckBox).Checked = true;
+                else if (ctl is ComboBox)
+                    (ctl as ComboBox).SelectedIndex = 0;
+                else if (ctl is DateTimePicker)
+                    (ctl as DateTimePicker).Value = new DateTime(2006, 1, 1);
+            txtMaSV.Focus();
+        }
+
+        private void btnKhong_Click(object sender, EventArgs e)
+        {
+            txtMaSV.ReadOnly = true;
+            GanDuLieu(stt);
+        }
+
+        private void btnGhi_Click(object sender, EventArgs e)
+        {
+            cnn.Open();
+            if(MaSV.ReadOnly==true)//Ghi khi SUA
+            {
+                //Xac dinh dong SINHVIEN caanf sua
+                DataRow rsv = tblSinhVien.Rows.Find(MaSV.Text);
+                //Tien hanh sua
+                //1 Cap nhat gia tri tren Form vao database
+                rsv["HoSV"] = txtHoSV.Text;
+                rsv["TenSV"] = txtTenSV.Text;
+                rsv["Phai"] = chkPhai.Checked;
+                rsv["NgaySinh"] = dtpNgaySinh.Text;
+                rsv["NoiSinh"] = txtNoiSinh.Text;
+                rsv["MaKH"] = cboMaKhoa.SelectedValue.ToString();
+                rsv["HocBong"] = txtHocbong.Text;
+                //2 Cap nhat gia tri tren Form vao CSDL Access
+                string chuoiSua = "Update SINHVIEN set ";
+                chuoiSua += "HoSV = '" + txtHoSV.Text + "',";
+                chuoiSua += "TenSV = '" + txtTenSV.Text + "',";
+                chuoiSua += "Phai = " + chkPhai.Checked + ",";
+                chuoiSua += "NgaySinh = #" + dtpNgaySinh.Value + "#,";
+                chuoiSua += "NoiSinh = '" + txtNoiSinh.Text + "',";
+                chuoiSua += "MaKH = '" + cboMaKhoa.SelectedValue.ToString() + "',";
+                chuoiSua += "HocBong = " + txtHocbong.Text ;
+                chuoiSua += " Where MaSV = '" + MaSV.Text + "'";
+                cmdSinhVien = new OleDbCommand(chuoiSua, cnn);
+                int n = cmdSinhVien.ExecuteNonQuery();
+                if (n > 0)
+                    MessageBox.Show("Cap nhat SUA thanh cong");
+            }
+            else
+            {
+                //Tao mơi va them sinh vien vao Database SINHVIEN
+                //Kiem tra khoa chinh co bi trung khong
+                DataRow rsv = tblSinhVien.Rows.Find(txtMaSV.Text);
+                if (rsv != null)//Da co SV mang MaSV nay
+                {
+                    MessageBox.Show("MaSV nay bi trung, moi nhap MaSV khac");
+                    txtMaSV.Focus();
+                    return;
+                }
+                rsv = tblSinhVien.NewRow();
+                rsv["MaSV"] = MaSV.Text;
+                rsv["HoSV"] = txtHoSV.Text;
+                rsv["TenSV"] = txtTenSV.Text;
+                rsv["Phai"] = chkPhai.Checked;
+                rsv["NgaySinh"] = dtpNgaySinh.Text;
+                rsv["NoiSinh"] = txtNoiSinh.Text;
+                rsv["MaKH"] = cboMaKhoa.SelectedValue.ToString();
+                rsv["HocBong"] = txtHocbong.Text;
+                tblSinhVien.Rows.Add(rsv);
+                //Them moi sinh vien vao CSDL
+                string chuoiThem = "Insert into SINHVIEN values (";
+                chuoiThem += "'" + MaSV.Text + "',";
+                chuoiThem += "'" + txtHoSV.Text + "',";
+                chuoiThem += "'" + txtTenSV.Text + "',";
+                chuoiThem += chkPhai.Checked.ToString()  + ",";
+                chuoiThem += "#" + dtpNgaySinh.Text + "#,";
+                chuoiThem += "'" + txtNoiSinh.Text + "',";
+                chuoiThem += "'" + cboMaKhoa.SelectedValue.ToString() + "',";
+                chuoiThem += txtHocbong.Text + ")";
+                cmdSinhVien = new OleDbCommand(chuoiThem, cnn);
+                int n = cmdSinhVien.ExecuteNonQuery();
+                if (n > 0)
+                    MessageBox.Show("Cap nhat THEM thanh cong");
+            }
+            cnn.Close();
+        }
+
         private void NhapLieu_tblKetQua()
         {
             //1 Mo ket noi

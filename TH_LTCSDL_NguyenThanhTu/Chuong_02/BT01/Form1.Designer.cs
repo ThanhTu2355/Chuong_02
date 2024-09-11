@@ -70,29 +70,31 @@
             // 
             this.btnKhong.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnKhong.ForeColor = System.Drawing.Color.Maroon;
-            this.btnKhong.Location = new System.Drawing.Point(441, 300);
+            this.btnKhong.Location = new System.Drawing.Point(436, 300);
             this.btnKhong.Name = "btnKhong";
             this.btnKhong.Size = new System.Drawing.Size(71, 35);
             this.btnKhong.TabIndex = 41;
             this.btnKhong.Text = "Không";
             this.btnKhong.UseVisualStyleBackColor = true;
+            this.btnKhong.Click += new System.EventHandler(this.btnKhong_Click);
             // 
             // btnGhi
             // 
             this.btnGhi.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGhi.ForeColor = System.Drawing.Color.Maroon;
-            this.btnGhi.Location = new System.Drawing.Point(364, 300);
+            this.btnGhi.Location = new System.Drawing.Point(363, 300);
             this.btnGhi.Name = "btnGhi";
             this.btnGhi.Size = new System.Drawing.Size(71, 35);
             this.btnGhi.TabIndex = 40;
             this.btnGhi.Text = "Ghi";
             this.btnGhi.UseVisualStyleBackColor = true;
+            this.btnGhi.Click += new System.EventHandler(this.btnGhi_Click);
             // 
             // btnHuy
             // 
             this.btnHuy.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnHuy.ForeColor = System.Drawing.Color.Maroon;
-            this.btnHuy.Location = new System.Drawing.Point(297, 300);
+            this.btnHuy.Location = new System.Drawing.Point(290, 300);
             this.btnHuy.Name = "btnHuy";
             this.btnHuy.Size = new System.Drawing.Size(71, 35);
             this.btnHuy.TabIndex = 39;
@@ -103,7 +105,7 @@
             // 
             this.btnSau.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSau.ForeColor = System.Drawing.Color.Maroon;
-            this.btnSau.Location = new System.Drawing.Point(154, 301);
+            this.btnSau.Location = new System.Drawing.Point(155, 301);
             this.btnSau.Name = "btnSau";
             this.btnSau.Size = new System.Drawing.Size(60, 33);
             this.btnSau.TabIndex = 36;
@@ -115,12 +117,13 @@
             // 
             this.btnThem.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnThem.ForeColor = System.Drawing.Color.Maroon;
-            this.btnThem.Location = new System.Drawing.Point(220, 300);
+            this.btnThem.Location = new System.Drawing.Point(217, 300);
             this.btnThem.Name = "btnThem";
             this.btnThem.Size = new System.Drawing.Size(71, 35);
             this.btnThem.TabIndex = 38;
             this.btnThem.Text = "Thêm";
             this.btnThem.UseVisualStyleBackColor = true;
+            this.btnThem.Click += new System.EventHandler(this.btnThem_Click);
             // 
             // btnTruoc
             // 
@@ -128,7 +131,7 @@
             this.btnTruoc.ForeColor = System.Drawing.Color.Maroon;
             this.btnTruoc.Location = new System.Drawing.Point(31, 301);
             this.btnTruoc.Name = "btnTruoc";
-            this.btnTruoc.Size = new System.Drawing.Size(60, 33);
+            this.btnTruoc.Size = new System.Drawing.Size(69, 33);
             this.btnTruoc.TabIndex = 35;
             this.btnTruoc.Text = "Trước";
             this.btnTruoc.UseVisualStyleBackColor = true;
@@ -162,7 +165,7 @@
             // lblSTT
             // 
             this.lblSTT.AutoSize = true;
-            this.lblSTT.Location = new System.Drawing.Point(97, 308);
+            this.lblSTT.Location = new System.Drawing.Point(102, 308);
             this.lblSTT.Name = "lblSTT";
             this.lblSTT.Size = new System.Drawing.Size(51, 19);
             this.lblSTT.TabIndex = 24;
@@ -293,6 +296,7 @@
             // 
             this.MaSV.Location = new System.Drawing.Point(121, 75);
             this.MaSV.Name = "MaSV";
+            this.MaSV.ReadOnly = true;
             this.MaSV.Size = new System.Drawing.Size(391, 27);
             this.MaSV.TabIndex = 26;
             this.MaSV.TextChanged += new System.EventHandler(this.MaSV_TextChanged);
