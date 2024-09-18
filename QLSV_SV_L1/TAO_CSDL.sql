@@ -11,7 +11,8 @@ log on
 go
 use QLSV_SV_L1
 go
-
+use master
+drop database QLSV_SV_L1
 -- Tao bang KHOA
 create table KHOA
 (
@@ -30,6 +31,7 @@ create table SINHVIEN
     Ngaysinh datetime,
     Noisinh nvarchar(50),
     MaKH char(2),
+	HocBong real,
     constraint Pri_SINHVIEN primary key (MaSV),
     constraint For_KHOA_SINHVIEN foreign key (MaKH) references KHOA(MaKH)
 )
@@ -39,6 +41,8 @@ create table MONHOC
 (
     MaMH char(2),
     TenMH nvarchar(45),
+	SoTiet real,
+	LoaiMH bit,
     constraint Pri_MONHOC primary key (MaMH)
 )
 

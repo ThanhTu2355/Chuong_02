@@ -1,0 +1,10 @@
+D:\DATA_LapTrinh\Git Clone\gitclone\TH_LTCSDL_NguyenThanhTu\Chuong_02\BT01_SQL\obj\Debug\BT01_SQL.csproj.AssemblyReference.cache
+D:\DATA_LapTrinh\Git Clone\gitclone\TH_LTCSDL_NguyenThanhTu\Chuong_02\BT01_SQL\obj\Debug\BT01_SQL.Form1.resources
+D:\DATA_LapTrinh\Git Clone\gitclone\TH_LTCSDL_NguyenThanhTu\Chuong_02\BT01_SQL\obj\Debug\BT01_SQL.Properties.Resources.resources
+D:\DATA_LapTrinh\Git Clone\gitclone\TH_LTCSDL_NguyenThanhTu\Chuong_02\BT01_SQL\obj\Debug\BT01_SQL.csproj.GenerateResource.cache
+D:\DATA_LapTrinh\Git Clone\gitclone\TH_LTCSDL_NguyenThanhTu\Chuong_02\BT01_SQL\obj\Debug\BT01_SQL.csproj.CoreCompileInputs.cache
+D:\DATA_LapTrinh\Git Clone\gitclone\TH_LTCSDL_NguyenThanhTu\Chuong_02\BT01_SQL\bin\Debug\BT01_SQL.exe.config
+D:\DATA_LapTrinh\Git Clone\gitclone\TH_LTCSDL_NguyenThanhTu\Chuong_02\BT01_SQL\bin\Debug\BT01_SQL.exe
+D:\DATA_LapTrinh\Git Clone\gitclone\TH_LTCSDL_NguyenThanhTu\Chuong_02\BT01_SQL\bin\Debug\BT01_SQL.pdb
+D:\DATA_LapTrinh\Git Clone\gitclone\TH_LTCSDL_NguyenThanhTu\Chuong_02\BT01_SQL\obj\Debug\BT01_SQL.exe
+D:\DATA_LapTrinh\Git Clone\gitclone\TH_LTCSDL_NguyenThanhTu\Chuong_02\BT01_SQL\obj\Debug\BT01_SQL.pdb

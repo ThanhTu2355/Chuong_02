@@ -7,17 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.OleDb;//Access
+using System.Data.SqlClient;
 
-namespace BT01
+namespace BT01_SQL
 {
     public partial class Form1 : Form
     {
         //1. Khai bao cac doi tuong can su dung
         //1.1 Chuoi ket noi
-        string strcon = @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=..\..\..\data\QLSV.mdb";
+        string strcon = @"server=.; Database=QLSV_SV_L1; integrated security=true";
         //1.2 Doi tuong ket noi
-        OleDbConnection cnn;
+        SqlConnection cnn;
         //1.3 Khai bao cac doi tuong luu du lieu
         DataSet ds = new DataSet();
         DataTable tblKhoa = new DataTable("KHOA");
@@ -25,7 +25,7 @@ namespace BT01
         DataTable tblKetQua = new DataTable("KETQUA");
 
         //2 Khia bao cac command de doc va ghi du lieu
-        OleDbCommand cmdKhoa, cmdSinhVien, cmdKetQua;
+        SqlCommand cmdKhoa, cmdSinhVien, cmdKetQua;
         //Khai bao bien stt
         int stt = -1;
         public Form1()
@@ -36,7 +36,7 @@ namespace BT01
         private void Form1_Load(object sender, EventArgs e)
         {
             //Khoi tao ket noi
-            cnn = new OleDbConnection(strcon);
+            cnn = new SqlConnection(strcon);
             ////cnn.Open();
             //if (cnn.State == ConnectionState.Open)
             //    MessageBox.Show("Ok");
@@ -49,34 +49,6 @@ namespace BT01
             GanDuLieu(stt);
         }
 
-        private void GanDuLieu(int stt)
-        {
-            //lay dong du lieu thu stt trong tblsinhVien
-            DataRow rsv = tblSinhVien.Rows[stt];
-            MaSV.Text = rsv["MaSV"].ToString();
-            txtHoSV.Text = rsv["HoSV"].ToString();
-            txtTenSV.Text = rsv["TenSV"].ToString();
-            chkPhai.Checked = (Boolean)rsv["Phai"];
-            dtpNgaySinh.Text = rsv["NgaySinh"].ToString();
-            txtNoiSinh.Text = rsv["NoiSinh"].ToString();
-            cboMaKhoa.SelectedValue = rsv["MaKH"].ToString();
-            txtHocbong.Text = rsv["HocBong"].ToString();
-            //the hien so thu tu mau tin hien hanh
-            lblSTT.Text = (stt + 1) + "/" + tblSinhVien.Rows.Count;
-            //Tinh tong diem
-            txtTongDiem.Text = TongDiem(MaSV.Text).ToString();
-        }
-        private double TongDiem(string msv)
-        {
-            double kq = 0;
-            Object td = tblKetQua.Compute("sum(Diem)", "MaSV='" + msv + "'");
-            //Luu y Truong hop SV khong co diem thi phuong thuc tra ve gia tri DBNull
-            if (td == DBNull.Value)
-                kq = 0;
-            else
-                kq = Convert.ToDouble(td);
-            return kq;
-        }
         private void TaoCauTrucCacBang()
         {
             //Tạo cấu trúc cho DataTable tương ứng với bảng KHOA
@@ -131,19 +103,14 @@ namespace BT01
             NhapLieu_tblKetQua();
         }
 
-        private void label8_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void NhapLieu_tblKhoa()
         {
             //1 Mo ket noi
             cnn.Open();
             //2 Khoi tao doi tuong command tuong ung de doc du lieu tu table KHOA
-            cmdKhoa = new OleDbCommand("select * from KHOA", cnn);
+            cmdKhoa = new SqlCommand("select * from KHOA", cnn);
             //3 Tao doi tuong DataReader de tien hanh doc du lieu teong table KHOA
-            OleDbDataReader rkh = cmdKhoa.ExecuteReader();
+            SqlDataReader rkh = cmdKhoa.ExecuteReader();
             //4 Tien hanh doc du lieu voi doi tuong DataReader nhu sau
             while (rkh.Read())  //Moi lan nap thi rkh tro den 1 dong trong table KHOA
             {
@@ -162,9 +129,9 @@ namespace BT01
             //1 Mo ket noi
             cnn.Open();
             //2 Khoi tao doi tuong command tuong ung de doc du lieu tu table SINHVIEN
-            cmdSinhVien = new OleDbCommand("select * from SINHVIEN", cnn);
+            cmdSinhVien = new SqlCommand("select * from SINHVIEN", cnn);
             //3 Tao doi tuong DataReader de tien hanh doc du lieu teong table SINHVIEN
-            OleDbDataReader rsv = cmdSinhVien.ExecuteReader();
+            SqlDataReader rsv = cmdSinhVien.ExecuteReader();
             //4 Tien hanh doc du lieu voi doi tuong DataReader nhu sau
             while (rsv.Read())  //Moi lan nap thi rkh tro den 1 dong trong table SINHVIEN
             {
@@ -178,155 +145,14 @@ namespace BT01
             cnn.Close();
         }
 
-        private void btnTruoc_Click(object sender, EventArgs e)
-        {
-            if (stt == 0) return;
-            stt--;
-            GanDuLieu(stt);
-        }
-
-        private void btnSau_Click(object sender, EventArgs e)
-        {
-            if (stt == tblSinhVien.Rows.Count - 1) return;
-            stt++;
-            GanDuLieu(stt);
-        }
-
-        private void MaSV_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnThem_Click(object sender, EventArgs e)
-        {
-            MaSV.ReadOnly = false;
-            foreach (Control ctl in Controls)
-                if (ctl is TextBox)
-                    (ctl as TextBox).Clear();
-                else if (ctl is CheckBox)
-                    (ctl as CheckBox).Checked = true;
-                else if (ctl is ComboBox)
-                    (ctl as ComboBox).SelectedIndex = 0;
-                else if (ctl is DateTimePicker)
-                    (ctl as DateTimePicker).Value = new DateTime(2006, 1, 1);
-            txtMaSV.Focus();
-        }
-
-        private void btnKhong_Click(object sender, EventArgs e)
-        {
-            txtMaSV.ReadOnly = true;
-            GanDuLieu(stt);
-        }
-
-        private void btnGhi_Click(object sender, EventArgs e)
-        {
-            cnn.Open();
-            if(MaSV.ReadOnly==true)//Ghi khi SUA
-            {
-                //Xac dinh dong SINHVIEN caanf sua
-                DataRow rsv = tblSinhVien.Rows.Find(MaSV.Text);
-                //Tien hanh sua
-                //1 Cap nhat gia tri tren Form vao database
-                rsv["HoSV"] = txtHoSV.Text;
-                rsv["TenSV"] = txtTenSV.Text;
-                rsv["Phai"] = chkPhai.Checked;
-                rsv["NgaySinh"] = dtpNgaySinh.Text;
-                rsv["NoiSinh"] = txtNoiSinh.Text;
-                rsv["MaKH"] = cboMaKhoa.SelectedValue.ToString();
-                rsv["HocBong"] = txtHocbong.Text;
-                //2 Cap nhat gia tri tren Form vao CSDL Access
-                string chuoiSua = "Update SINHVIEN set ";
-                chuoiSua += "HoSV = '" + txtHoSV.Text + "',";
-                chuoiSua += "TenSV = '" + txtTenSV.Text + "',";
-                chuoiSua += "Phai = " + chkPhai.Checked + ",";
-                chuoiSua += "NgaySinh = #" + dtpNgaySinh.Value + "#,";
-                chuoiSua += "NoiSinh = '" + txtNoiSinh.Text + "',";
-                chuoiSua += "MaKH = '" + cboMaKhoa.SelectedValue.ToString() + "',";
-                chuoiSua += "HocBong = " + txtHocbong.Text ;
-                chuoiSua += " Where MaSV = '" + MaSV.Text + "'";
-                cmdSinhVien = new OleDbCommand(chuoiSua, cnn);
-                int n = cmdSinhVien.ExecuteNonQuery();
-                if (n > 0)
-                    MessageBox.Show("Cap nhat SUA thanh cong");
-            }
-            else
-            {
-                //Tao mơi va them sinh vien vao Database SINHVIEN
-                //Kiem tra khoa chinh co bi trung khong
-                DataRow rsv = tblSinhVien.Rows.Find(txtMaSV.Text);
-                if (rsv != null)//Da co SV mang MaSV nay
-                {
-                    MessageBox.Show("MaSV nay bi trung, moi nhap MaSV khac");
-                    txtMaSV.Focus();
-                    return;
-                }
-                rsv = tblSinhVien.NewRow();
-                rsv["MaSV"] = MaSV.Text;
-                rsv["HoSV"] = txtHoSV.Text;
-                rsv["TenSV"] = txtTenSV.Text;
-                rsv["Phai"] = chkPhai.Checked;
-                rsv["NgaySinh"] = dtpNgaySinh.Text;
-                rsv["NoiSinh"] = txtNoiSinh.Text;
-                rsv["MaKH"] = cboMaKhoa.SelectedValue.ToString();
-                rsv["HocBong"] = txtHocbong.Text;
-                tblSinhVien.Rows.Add(rsv);
-                //Them moi sinh vien vao CSDL
-                string chuoiThem = "Insert into SINHVIEN values (";
-                chuoiThem += "'" + MaSV.Text + "',";
-                chuoiThem += "'" + txtHoSV.Text + "',";
-                chuoiThem += "'" + txtTenSV.Text + "',";
-                chuoiThem += chkPhai.Checked.ToString()  + ",";
-                chuoiThem += "#" + dtpNgaySinh.Text + "#,";
-                chuoiThem += "'" + txtNoiSinh.Text + "',";
-                chuoiThem += "'" + cboMaKhoa.SelectedValue.ToString() + "',";
-                chuoiThem += txtHocbong.Text + ")";
-                cmdSinhVien = new OleDbCommand(chuoiThem, cnn);
-                int n = cmdSinhVien.ExecuteNonQuery();
-                if (n > 0)
-                    MessageBox.Show("Cap nhat THEM thanh cong");
-            }
-            cnn.Close();
-        }
-
-        private void btnHuy_Click(object sender, EventArgs e)
-        {
-            //Xac dinh dong can huy Su dung ham Find
-            DataRow rsv = tblSinhVien.Rows.Find(MaSV.Text);
-            //Can kien tra Neu rsv ton tai trong tblKetQua thi khong xoa. Nguoc lai thi cho xoa
-            //Su dung ham getChilRow de kiem tra nhung dong lien quan co ton tai hay khong. Gia tri tra ve la mang
-            DataRow[] mangDongLienQuan = rsv.GetChildRows("FK_SINHVIEN_KETQUA");
-            if (mangDongLienQuan.Length > 0)//co ton tai nhung dong lien quan trong tblKetQua
-                MessageBox.Show("Khong xoa duoc Sv vi da co ket qua thi");
-            else
-            {
-                DialogResult tl;
-                tl = MessageBox.Show("Xoa sinh vien nay khong?", "Can than", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (tl == DialogResult.Yes)
-                {
-                    //Xoa trong DataTable
-                    rsv.Delete();
-                    //Xoa trong CSDL
-                    cnn.Open();
-                    string chuoiXoa = "Delete from SINHVIEN where MaSV='" + MaSV.Text + "'";
-                    cmdSinhVien = new OleDbCommand(chuoiXoa,cnn);
-                    int n = cmdSinhVien.ExecuteNonQuery();
-                    if (n > 0)
-                        MessageBox.Show("Xoa sinh vien thanh cong");
-                    stt = 0;
-                    GanDuLieu(stt);
-                    cnn.Close();
-                }
-            }
-        }
-
         private void NhapLieu_tblKetQua()
         {
             //1 Mo ket noi
             cnn.Open();
             //2 Khoi tao doi tuong command tuong ung de doc du lieu tu table KETQUA
-            cmdKetQua = new OleDbCommand("select * from KETQUA", cnn);
+            cmdKetQua = new SqlCommand("select * from KETQUA", cnn);
             //3 Tao doi tuong DataReader de tien hanh doc du lieu teong table KETQUA
-            OleDbDataReader rkq = cmdKetQua.ExecuteReader();
+            SqlDataReader rkq = cmdKetQua.ExecuteReader();
             //4 Tien hanh doc du lieu voi doi tuong DataReader nhu sau
             while (rkq.Read())  //Moi lan nap thi rkh tro den 1 dong trong table KETQUA
             {
@@ -345,6 +171,159 @@ namespace BT01
             cboMaKhoa.DisplayMember = "TenKH";
             cboMaKhoa.ValueMember = "MaKH";
             cboMaKhoa.DataSource = tblKhoa;
+        }
+
+        private void btnGhi_Click(object sender, EventArgs e)
+        {
+            cnn.Open();
+            if (txtMaSV.ReadOnly == true)//Ghi khi SUA
+            {
+                //Xac dinh dong SINHVIEN caanf sua
+                DataRow rsv = tblSinhVien.Rows.Find(txtMaSV.Text);
+                //Tien hanh sua
+                //1 Cap nhat gia tri tren Form vao database
+                rsv["HoSV"] = txtHoSV.Text;
+                rsv["TenSV"] = txtTenSV.Text;
+                rsv["Phai"] = chkPhai.Checked==true ? 1:0;
+                rsv["NgaySinh"] = dtpNgaySinh.Text;
+                rsv["NoiSinh"] = txtNoiSinh.Text;
+                rsv["MaKH"] = cboMaKhoa.SelectedValue.ToString();
+                rsv["HocBong"] = txtHocbong.Text;
+                //2 Cap nhat gia tri tren Form vao CSDL Access
+                string chuoiSua = "Update SINHVIEN set ";
+                chuoiSua += "HoSV = N'" + txtHoSV.Text + "',";
+                chuoiSua += "TenSV = N'" + txtTenSV.Text + "',";
+                chuoiSua += "Phai = " + (chkPhai.Checked==true?1:0) + ",";
+                chuoiSua += "NgaySinh = '" + dtpNgaySinh.Value + "',";
+                chuoiSua += "NoiSinh = '" + txtNoiSinh.Text + "',";
+                chuoiSua += "MaKH = '" + cboMaKhoa.SelectedValue.ToString() + "',";
+                chuoiSua += "HocBong = " + txtHocbong.Text;
+                chuoiSua += " Where MaSV = '" + txtMaSV.Text + "'";
+                cmdSinhVien = new SqlCommand(chuoiSua, cnn);
+                int n = cmdSinhVien.ExecuteNonQuery();
+                if (n > 0)
+                    MessageBox.Show("Cap nhat SUA thanh cong");
+            }
+            else
+            {
+                //Tao mơi va them sinh vien vao Database SINHVIEN
+                //Kiem tra khoa chinh co bi trung khong
+                DataRow rsv = tblSinhVien.Rows.Find(txtMaSV.Text);
+                if (rsv != null)//Da co SV mang MaSV nay
+                {
+                    MessageBox.Show("MaSV nay bi trung, moi nhap MaSV khac");
+                    txtMaSV.Focus();
+                    return;
+                }
+                rsv = tblSinhVien.NewRow();
+                rsv["MaSV"] = txtMaSV.Text;
+                rsv["HoSV"] = txtHoSV.Text;
+                rsv["TenSV"] = txtTenSV.Text;
+                rsv["Phai"] = chkPhai.Checked;
+                rsv["NgaySinh"] = dtpNgaySinh.Text;
+                rsv["NoiSinh"] = txtNoiSinh.Text;
+                rsv["MaKH"] = cboMaKhoa.SelectedValue.ToString();
+                rsv["HocBong"] = txtHocbong.Text;
+                tblSinhVien.Rows.Add(rsv);
+                //Them moi sinh vien vao CSDL
+                string chuoiThem = "Insert into SINHVIEN values (";
+                chuoiThem += "'" + txtMaSV.Text + "',";
+                chuoiThem += "N'" + txtHoSV.Text + "',";
+                chuoiThem += "N'" + txtTenSV.Text + "',";
+                chuoiThem += (chkPhai.Checked==true?1:0) + ",";
+                chuoiThem += "'" + dtpNgaySinh.Text + "',";
+                chuoiThem += "N'" + txtNoiSinh.Text + "',";
+                chuoiThem += "'" + cboMaKhoa.SelectedValue.ToString() + "',";
+                chuoiThem += txtHocbong.Text + ")";
+                cmdSinhVien = new SqlCommand(chuoiThem, cnn);
+                int n = cmdSinhVien.ExecuteNonQuery();
+                if (n > 0)
+                    MessageBox.Show("Cap nhat THEM thanh cong");
+            }
+            cnn.Close();
+        }
+
+        private void btnHuy_Click(object sender, EventArgs e)
+        {
+            //Xac dinh dong can huy Su dung ham Find
+            DataRow rsv = tblSinhVien.Rows.Find(txtMaSV.Text);
+            //Can kien tra Neu rsv ton tai trong tblKetQua thi khong xoa. Nguoc lai thi cho xoa
+            //Su dung ham getChilRow de kiem tra nhung dong lien quan co ton tai hay khong. Gia tri tra ve la mang
+            DataRow[] mangDongLienQuan = rsv.GetChildRows("FK_SINHVIEN_KETQUA");
+            if (mangDongLienQuan.Length > 0)//co ton tai nhung dong lien quan trong tblKetQua
+                MessageBox.Show("Khong xoa duoc Sv vi da co ket qua thi");
+            else
+            {
+                DialogResult tl;
+                tl = MessageBox.Show("Xoa sinh vien nay khong?", "Can than", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (tl == DialogResult.Yes)
+                {
+                    //Xoa trong DataTable
+                    rsv.Delete();
+                    //Xoa trong CSDL
+                    cnn.Open();
+                    string chuoiXoa = "Delete from SINHVIEN where MaSV='" + txtMaSV.Text + "'";
+                    cmdSinhVien = new SqlCommand(chuoiXoa, cnn);
+                    int n = cmdSinhVien.ExecuteNonQuery();
+                    if (n > 0)
+                        MessageBox.Show("Xoa sinh vien thanh cong");
+                    stt = 0;
+                    GanDuLieu(stt);
+                    cnn.Close();
+                }
+            }
+        }
+
+        private void btnThem_Click(object sender, EventArgs e)
+        {
+            txtMaSV.ReadOnly = false;
+            foreach (Control ctl in Controls)
+                if (ctl is TextBox)
+                    (ctl as TextBox).Clear();
+                else if (ctl is CheckBox)
+                    (ctl as CheckBox).Checked = true;
+                else if (ctl is ComboBox)
+                    (ctl as ComboBox).SelectedIndex = 0;
+                else if (ctl is DateTimePicker)
+                    (ctl as DateTimePicker).Value = new DateTime(2006, 1, 1);
+            txtMaSV.Focus();
+        }
+
+        private void btnSau_Click(object sender, EventArgs e)
+        {
+            if (stt == tblSinhVien.Rows.Count - 1) return;
+            stt++;
+            GanDuLieu(stt);
+        }
+
+        private void GanDuLieu(int stt)
+        {
+            //lay dong du lieu thu stt trong tblsinhVien
+            DataRow rsv = tblSinhVien.Rows[stt];
+            txtMaSV.Text = rsv["MaSV"].ToString();
+            txtHoSV.Text = rsv["HoSV"].ToString();
+            txtTenSV.Text = rsv["TenSV"].ToString();
+            chkPhai.Checked = (Boolean)rsv["Phai"];
+            dtpNgaySinh.Text = rsv["NgaySinh"].ToString();
+            txtNoiSinh.Text = rsv["NoiSinh"].ToString();
+            cboMaKhoa.SelectedValue = rsv["MaKH"].ToString();
+            txtHocbong.Text = rsv["HocBong"].ToString();
+            //the hien so thu tu mau tin hien hanh
+            lblSTT.Text = (stt + 1) + "/" + tblSinhVien.Rows.Count;
+            //Tinh tong diem
+            txtTongDiem.Text = TongDiem(txtMaSV.Text).ToString();
+        }
+
+        private object TongDiem(string text)
+        {
+            double kq = 0;
+            Object td = tblKetQua.Compute("sum(Diem)", "MaSV='" + txtMaSV + "'");
+            //Luu y Truong hop SV khong co diem thi phuong thuc tra ve gia tri DBNull
+            if (td == DBNull.Value)
+                kq = 0;
+            else
+                kq = Convert.ToDouble(td);
+            return kq;
         }
     }
 }
