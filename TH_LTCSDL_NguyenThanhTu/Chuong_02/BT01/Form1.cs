@@ -271,16 +271,30 @@ namespace BT01
                 rsv["HocBong"] = txtHocbong.Text;
                 tblSinhVien.Rows.Add(rsv);
                 //Them moi sinh vien vao CSDL
-                string chuoiThem = "Insert into SINHVIEN values (";
-                chuoiThem += "'" + MaSV.Text + "',";
-                chuoiThem += "'" + txtHoSV.Text + "',";
-                chuoiThem += "'" + txtTenSV.Text + "',";
-                chuoiThem += chkPhai.Checked.ToString()  + ",";
-                chuoiThem += "#" + dtpNgaySinh.Text + "#,";
-                chuoiThem += "'" + txtNoiSinh.Text + "',";
-                chuoiThem += "'" + cboMaKhoa.SelectedValue.ToString() + "',";
-                chuoiThem += txtHocbong.Text + ")";
+                //string chuoiThem = "Insert into SINHVIEN values (";
+                //chuoiThem += "'" + MaSV.Text + "',";
+                //chuoiThem += "'" + txtHoSV.Text + "',";
+                //chuoiThem += "'" + txtTenSV.Text + "',";
+                //chuoiThem += chkPhai.Checked.ToString()  + ",";
+                //chuoiThem += "#" + dtpNgaySinh.Text + "#,";
+                //chuoiThem += "'" + txtNoiSinh.Text + "',";
+                //chuoiThem += "'" + cboMaKhoa.SelectedValue.ToString() + "',";
+                //chuoiThem += txtHocbong.Text + ")";
+                //cmdSinhVien = new OleDbCommand(chuoiThem, cnn);
+
+                //Them moi sinh vien bang Parameter
+                string chuoiThem = "Insert into SINHVIEN values (@masv,@hsv,@tsv,@ph,@ngsinh,@ns,@mk,@hb)";
                 cmdSinhVien = new OleDbCommand(chuoiThem, cnn);
+                //Khai bao parameter
+                cmdSinhVien.Parameters.Add("@masv",OleDbType.Char).Value = txtMaSV.Text;
+                cmdSinhVien.Parameters.Add("@hsv", OleDbType.VarWChar).Value = txtHoSV.Text;
+                cmdSinhVien.Parameters.Add("@tsv", OleDbType.VarWChar).Value = txtTenSV.Text;
+                cmdSinhVien.Parameters.Add("@ph", OleDbType.Boolean).Value = chkPhai.Checked;
+                cmdSinhVien.Parameters.Add("@ngsinh", OleDbType.Date).Value = dtpNgaySinh.Value;
+                cmdSinhVien.Parameters.Add("@ns", OleDbType.VarWChar).Value = txtNoiSinh.Text;
+                cmdSinhVien.Parameters.Add("@mk", OleDbType.Char).Value = cboMaKhoa.SelectedValue.ToString();
+                cmdSinhVien.Parameters.Add("@hb", OleDbType.Double).Value = txtHocbong.Text;
+
                 int n = cmdSinhVien.ExecuteNonQuery();
                 if (n > 0)
                     MessageBox.Show("Cap nhat THEM thanh cong");
